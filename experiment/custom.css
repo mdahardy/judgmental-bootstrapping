@@ -1,0 +1,471 @@
+body{
+    font-family:Helvetica, sans-serif;
+}
+
+#feedback{
+    font-size:16px;
+    font-family:Arial, Helvetica, sans-serif;
+    padding:10px;
+    max-width:90%;
+}
+
+.bold-red{
+    font-weight:bold;
+    color:red;
+}
+
+/* LOADER */
+.loader {
+  display: inline-block;
+  width:18px;
+  height: 18px;
+  position: relative;
+  border: 2px solid rgb(0, 0, 0);
+  top: 50%;
+  animation: loader 2s infinite ease;
+}
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: rgb(0, 0, 0);
+  animation: loader-inner 2s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(180deg);
+  }
+  
+  50% {
+    transform: rotate(180deg);
+  }
+  
+  75% {
+    transform: rotate(360deg);
+  }
+  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-inner {
+  0% {
+    height: 0%;
+  }
+  
+  25% {
+    height: 0%;
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  75% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 0%;
+  }
+}
+
+/* INSTRUCTIONS */
+.instructions-wrapper{
+    margin:0 auto;
+    text-align:left;
+    width:800px;
+    max-width:100%;
+    line-height:1.8em;
+}
+
+.center-text{
+    text-align:center;
+}
+
+input[type=checkbox] {
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    border-radius:0;
+    padding: 15px;
+}
+
+#loading-text{
+    font-size:22px;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* .city-title{
+    font-size:30px;
+    line-height:45px;
+}
+
+.title{
+    margin-top:0 !important;
+    margin-bottom:20px;
+} */
+
+.consent-text{
+    text-align:left;
+    width:900px;
+    max-width:90%;
+    margin:0 auto;
+}
+
+.consent-title{
+    text-align:center;
+    line-height:1.2em;
+}
+
+#main-title{
+    font-size:30px;
+    line-height:45px;
+    margin-bottom:20px;
+    margin-top:-30px;
+}
+
+#content-wrapper{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+}
+
+#initially-hidden{
+    opacity:0;
+    pointer-events:none;
+}
+
+.flex-inner{
+    width:450px;
+    padding:0px 20px;
+}
+
+#flex-inner-1{
+    padding-left:0px
+}
+
+#flex-inner-2{
+    padding-right:0px;
+}
+
+.text-input{
+    padding:5px 12.5px;
+    width:5ch;
+    font-size:18px;
+    border-radius:0px;
+    outline:1px solid #777777;
+    border:none;
+}
+
+.text-input:focus{
+    outline:2px solid rgb(85, 85, 85);
+}
+
+.instructions{
+    margin-bottom:15px;
+}
+
+.prediction-input{
+    padding:3px 20px;
+    position: relative;
+}
+
+.suffix {
+    position: absolute;
+    top: 3px;
+    right: 27.5px;
+}
+
+.text-wrapper{
+    display:flex;
+    justify-content:center;
+    padding-bottom:20px;
+    text-align:right;
+}
+
+.jspsych-btn{
+    font-size:18px;
+    border-radius:0px;
+    border:2px solid rgb(85, 85, 85);
+    padding:10px 15px;
+    background:white;
+    cursor:pointer;
+    outline:none;
+}
+
+.jspsych-btn:hover{
+    border:2px solid rgb(85, 85, 85);
+    background:rgb(238, 238, 238);
+}
+
+.jspsych-btn:focus{
+    outline:none;
+    border:2px solid rgb(85, 85, 85);
+    border-radius:0px;
+    background:rgb(238, 238, 238);
+}
+
+.jspsych-btn:disabled{
+    pointer-events:none;
+    border:2px solid #cccccc;
+    color:#cccccc;
+}
+
+/* Remove arrows from textarea number inputs */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.computer-number {
+    font-family: Monaco, monospace;
+    line-height: 100%;
+    background-color: #eee;
+    padding: .2em;
+    letter-spacing: -.05em;
+    word-break: normal;
+    font-weight:bold;
+}
+
+.red-text{
+    background-color: #eb675e;
+    color:white;
+}
+
+.blue-text{
+    background-color: #5084de;
+    color:white;
+}
+
+/* -- -- -- -- -- --  */
+/* -- -- -- -- -- --  */
+/* -- PLOT SYLING -- */
+/* -- -- -- -- -- --  */
+/* -- -- -- -- -- --  */
+
+#model-svg-wrapper{
+    width:450px;
+    height:300px;
+    position:relative;
+    /* background:pink; */
+}
+
+.tick{
+    font-family:Helvetica, sans-serif;
+    font-size:16px;
+}
+.gridline{
+    stroke: rgb(0, 0, 0);
+    stroke-width:1px;
+    shape-rendering: crispEdges;
+    stroke-opacity: .2;
+    pointer-events:none;
+}
+
+.city-curve{
+    stroke-width:7px;
+    fill:none;
+    pointer-events:none;
+}
+
+.user-point{
+    pointer-events:none;
+}
+
+.red-curve{
+    stroke:#eb675e;
+}
+
+.blue-curve{
+    stroke:#5084de;
+}
+
+.red-point{
+    fill:#eb675e;
+}
+
+.blue-point{
+    fill: #5084de;
+}
+
+#tooltip{
+    opacity:0;
+    /* padding:5px 0px; */
+    font-size:16px;
+    color:white;
+    font-weight:bold;
+    position:absolute;
+    width:150px;
+    top:0px;
+    pointer-events:none;
+}
+
+.tooltip-red{
+    background:#eb675e;
+}
+
+.tooltip-blue{
+    background:#5084de;
+}
+
+.cities-text-wrapper{
+    padding:0px;
+    width:441px;
+    margin-right:15px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    display: flex;
+    height:280px;
+    align-items:center;
+    /* background:pink; */
+}
+
+.city-button{
+    font-size:16px;
+    padding:3px 0px;
+    width:142px;
+    border:2px solid black;
+    box-sizing:border-box;
+    cursor:pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.city-hover{
+    background:#eeeeee;
+}
+
+.city-button-red{
+    background:#eb675e;
+    color:white;
+}
+
+.city-button-red:hover{
+    background:#eb675e;
+    color:white;
+}
+
+.city-button-blue{
+    background:#5084de;
+    color:white;
+}
+
+.city-button-blue:hover{
+    background:#5084de;
+    color:white;
+}
+
+.model-square-red{
+    fill:#eb675e;
+}
+
+.model-square-blue{
+    fill:#5084de;
+}
+
+/* .user-squarergb(203, 203, 203)
+    fill:#5084de;
+}
+
+.model-square{
+    fill:#eb675e;
+} */
+
+/* -- -- -- -- -- --  */
+/* -- -- -- -- -- --  */
+/* MAP PAGE STYLING */
+/* -- -- -- -- -- --  */
+/* -- -- -- -- -- --  */
+
+/* INSTRUCTIONS */
+.city-instructions{
+    margin:0 auto;
+    text-align:left;
+    width:950px;
+    max-width:calc(100% - 20px);
+    line-height:1.8em;
+}
+
+
+#cities-map-wrapper{
+    margin-left:15px;
+    width:479px;
+    height:280px;
+}
+
+.city-dot{
+    cursor:pointer;
+    fill:#868686;
+}
+
+.city-dot-shown{
+    fill:#353535;
+}
+
+.red-city-dot-clicked{
+    fill:#eb675e;
+}
+
+.blue-city-dot-clicked{
+    fill:#5084de;
+}
+
+#start-trial{
+    margin-top:25px;
+}
+
+.hidden{
+    opacity:0;
+    pointer-events:none;
+}
+
+#attention-check {
+    opacity: 0;
+    position: absolute;
+    pointer-events: 'none';
+}
+
+@media (max-width:999px){
+    /* #content-wrapper{
+        justify-content: center;
+    } */
+
+    .flex-inner{
+        padding:15px !important;
+    }
+
+    #main-title{
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+}
