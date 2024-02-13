@@ -1,0 +1,187 @@
+---
+title: "Model-assisted forecasting: experiments analyses"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+``` {r}
+# Load packages
+library(dplyr)
+library(emmeans)
+library(lme4)
+library(lmerTest)
+library(here)
+library(ltm)
+library(glmnet)
+library(ggplot2)
+library(stringi)
+library(lubridate)
+source('multi-choice-utils.R')
+```
+
+
+``` {r}
+
+raw_experiment_data = read.csv('../experiment_data/raw_experiment_data.csv')
+
+bad_workers = raw_experiment_data %>%
+  group_by(workerId_hash) %>%
+  summarize(
+    n=n()
+  ) %>%
+  subset(n != 48)
+
+experiment_data = raw_experiment_data %>%
+  subset(!(workerId_hash %in% bad_workers$workerId_hash)) %>%
+  identify_junk() %>%
+  subset(is_practice == "False") %>%
+  subset(passed_check == T) %>%
+  mutate(
+    trial_id =  paste(workerId_hash,hitId,predictor_city,sep='-'),
+    year = 2023,
+  ) %>%
+  threshold_estimates()
+
+bad_trials = experiment_data %>%
+  group_by(trial_id) %>%
+  summarize(num_temps = length(unique(temperature_estimate))) %>%
+  subset(num_temps <= 2) %>%
+  pull(trial_id) %>%
+  unique()
+
+
+experiment_data = experiment_data %>%
+    mutate(
+    bad_trial = trial_id %in% bad_trials,
+    adjusted_temperature_estimate = case_when(
+      bad_trial ~ temperature_estimate + rnorm(n(),0,0.01),
+      TRUE ~ as.double(temperature_estimate)
+    )
+  ) %>%
+  add_bootstrapping_estimates(4,F) %>%
+  mutate(
+      type = case_when(
+        type == 'challenging' ~ 'Challenging',
+        type == 'kind' ~ 'Kind',
+        type == 'wicked' ~ 'Wicked'
+      ),
+      type = factor(type,levels=c('Kind','Challenging','Wicked'))
+  )
+
+
+kind_cities = c('Baltimore', 'Charlotte', 'Denver', 'Orlando', 'Portland', 'Sacramento', 'San Antonio', 'St. Louis')
+challenging_cities = c('Cairo', 'Delhi', 'Lagos', 'London', 'Mexico City', 'Paris', 'Tokyo', 'Toronto')
+wicked_cities = c('Auckland', 'Buenos Aires', 'Johannesburg', 'Luanda', 'Lima', 'Sao Paulo', 'Sydney', 'Santiago')
+all_cities = c(kind_cities,challenging_cities,wicked_cities)
+experiment_data$ordered_predictor_city = factor(experiment_data$predictor_city,levels=all_cities)
+
+```
+
+
+
+``` {r fig.width = 10, fig.height = 10}
+# Estimate abilities from IRT model and add to experiment_data
+
+# Prep worker data and irt data
+
+# Add worker data to 
+worker_data = read.csv('../experiment_data/worker_data.csv')
+
+irt_data = dplyr::select(worker_data,matches("correct"))
+irt_data = irt_data[,order(colnames(irt_data))]
+irt_data = data.frame(sapply(irt_data, \(x) +as.logical(x)))
+
+# Convert to 0/1
+#irt_model = ltm(irt_data ~ z1)
+irt_model = tpm(irt_data) # Three-parameter model
+# irt_model_og = ltm(irt_data ~ z1)
+# Correlate scores from both models...
+
+# og_ability = factor.scores(irt_model_og, resp.patterns = irt_data)$score.dat$z1
+# new_ability =  factor.scores(irt_model, resp.patterns = irt_data)$score.dat$z1
+
+# plot(og_ability,new_ability)
+
+worker_data$ability = factor.scores(irt_model, resp.patterns = irt_data)$score.dat$z1
+worker_data$num_correct = rowSums(irt_data)
+
+# Merge worker data with experiment_test
+experiment_data = experiment_data %>%
+  merge(worker_data,by='workerId_hash',all.x=T)
+
+plot(irt_model,type="ICC")
+
+```
+
+
+
+
+``` {r}
+# Do preregistered analyses
+
+# H1: Error in kind < error in challenging; error in wicked > error in challenging
+model0 = lmer(abs_error ~ type + (1|workerId_hash), data = experiment_data)
+means0 = emmeans(model0,'type')
+h1_tests = list(
+  'challenging - kind' = c(-1,1,0),
+  'wicked - challenging' = c(0,-1,1)
+)
+h1_contrasts = data.frame(contrast(means0,h1_tests))
+
+
+model1 = lmer(abs_error ~ condition*type + 
+                (1|workerId_hash) + (1|predictor_city) + 
+                (1|workerId_hash:predictor_city), data = experiment_data)
+means1 = emmeans(model1,c('type','condition'))
+      
+# H2: Compare overall errors in model assistance and control
+h2_tests = list('control - model assistance' = c(1,1,1,-1,-1,-1)/3)
+h2_contrasts = data.frame(contrast(means1,h2_tests))
+
+experiment_data %>% 
+  group_by(condition) %>%
+  summarize(
+    average_error = mean(abs_error)
+  )
+
+h3_tests = list(
+  'Kind: Control - MA' = c(0,1,0,0,-1,0),
+  'Challenging: Control - MA' = c(1,0,0,-1,0,0),
+  'Wicked: Control - MA' = c(0,0,1,0,0,-1)
+  )
+      
+h3_contrasts = data.frame((contrast(means1,h3_tests)))
+h3_significant = sum(h3_contrasts$p.value < 0.05) == nrow(h1_contrasts)
+
+experiment_data %>% 
+  group_by(condition,type) %>%
+  summarize(
+    average_error = round(mean(abs_error),2)
+  )
+
+
+
+
+
+# H4: Compare bootstrap vs. human errors in both conditions
+h4_model = lmer(human_minus_bootstrap_error ~ condition + (1|trial_id),data=experiment_data)
+h4_means = emmeans(h4_model,'condition', lmer.df = "asymp")
+h4_tests = list(
+  'control' = c(1,0),
+  'model assistance' = c(0,1)
+)
+  
+# H4 results
+h4_contrasts = data.frame((contrast(h4_means,h4_tests)))
+
+experiment_data %>%
+  group_by(condition) %>%
+  summarize(
+    average_error_reduction = round(mean(human_minus_bootstrap_error),2)
+  )
+
+```
