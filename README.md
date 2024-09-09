@@ -1,12 +1,12 @@
 # Replication package for "Improving out-of-population prediction: The complementary effects of model assistance and judgmental bootstrapping"
 
-This repo contains analysis code, experiment code, and data for <b>Improving out-of-population prediction: The complementary effects of model assistance and judgmental bootstrappin</b> by [Matt Hardy](https://matthardy.org/), [Sam Zhang](https://sam.zhang.fyi/), [Jessica Hullman](http://users.eecs.northwestern.edu/~jhullman/), [Jake Hofman](http://jakehofman.com/), and [Dan Goldstein](http://www.dangoldstein.com/).
+This repo contains analysis code, experiment code, and data for <b>Improving out-of-population prediction: The complementary effects of model assistance and judgmental bootstrapping</b> by [Matt Hardy](https://matthardy.org/), [Sam Zhang](https://sam.zhang.fyi/), [Jessica Hullman](http://users.eecs.northwestern.edu/~jhullman/), [Jake Hofman](http://jakehofman.com/), and [Dan Goldstein](http://www.dangoldstein.com/).
 
 This reproducibility package was assembled on September 9th, 2024. For questions, contact Matt Hardy at [mdhardy@princeton.edu](mailto:mdhardy@princeton.edu).
 
 ## Data
 
-* [experiment_data/](experiment_data/) contains the final data from the experiment. A description of each file is given below.
+The [experiment_data/](experiment_data/) directory contains the final data from the experiment. A description of each file is given below.
 * [raw_experiment_data.csv](experiment_data/raw_experiment_data.csv) contains the raw experiment data from the experiment.
 * [experiment_data_with_bootstrap.csv](experiment_data/experiment_data_with_bootstrap.csv) contains the experiment data with the fitted bootstrapped estimates appended as an additional column.
 * [worker_data.csv](experiment_data/worker_data.csv) contains each participant's responses to the comprehension quiz.
@@ -32,7 +32,7 @@ To reproduce the analyses:
 
 ## Experiment code
 
-* [experiment/](experiment/) contains all the front-end code and data for running the experiment (including the comprehension quiz). A description of each file is given below.
+The [experiment/](experiment/) directory contains all the front-end code and data for running the experiment (including the comprehension quiz). A description of each file is given below.
 * [city_data.csv](experiment/city_data.csv) contains data for identifying and selecting the target cities.
 * [experiment_with_city_selection.js](experiment/experiment_with_city_selection.js) is the main experiment script that generates and organizes the experiment using the jsPysch library.
 * [model_trial_with_selection.js](experiment/model_trial_with_selection.js) is a custom jsPsych plugin that generates each trial (either control or model assistance).
