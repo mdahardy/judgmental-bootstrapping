@@ -8,19 +8,32 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-``` {r}
-# Load packages
-library(dplyr)
-library(emmeans)
-library(lme4)
-library(lmerTest)
-library(here)
-library(ltm)
-library(glmnet)
-library(ggplot2)
-library(stringi)
-library(lubridate)
-source('multi-choice-utils.R')
+```{r}
+packages = c("dplyr", "emmeans", "lme4", "lmerTest", "here", "ltm", "glmnet", "ggplot2", "stringi", "lubridate")
+versions = c("1.0.8", "1.8.1.1", "1.1.28", "3.1.3", "1.0.1", "1.2.0", "4.1.4", "3.4.4", "1.7.6", "1.8.0")
+
+for (i in seq_along(packages)) {
+  if (!requireNamespace(packages[i], quietly = TRUE) || 
+      packageVersion(packages[i]) != versions[i]) {
+    remotes::install_version(packages[i], version = versions[i])
+  }
+  library(packages[i], character.only = TRUE)
+}
+
+# Verify package versions
+installed_versions = sapply(packages, packageVersion)
+expected_versions = setNames(versions, packages)
+all_correct = all(installed_versions == expected_versions)
+
+if (!all_correct) {
+  incorrect = which(installed_versions != expected_versions)
+  warning(paste("Some package versions do not match the expected versions:",paste(names(incorrect), collapse = ", ")))
+}
+
+print(here())
+
+source(here("data_analysis/multi-choice-utils.R"))
+
 ```
 
 
@@ -131,6 +144,7 @@ h1_tests = list(
   'wicked - challenging' = c(0,-1,1)
 )
 h1_contrasts = data.frame(contrast(means0,h1_tests))
+print(paste('h1_contrasts',h1_contrasts))
 
 
 model1 = lmer(abs_error ~ condition*type + 
@@ -141,6 +155,7 @@ means1 = emmeans(model1,c('type','condition'))
 # H2: Compare overall errors in model assistance and control
 h2_tests = list('control - model assistance' = c(1,1,1,-1,-1,-1)/3)
 h2_contrasts = data.frame(contrast(means1,h2_tests))
+print(paste('h2_contrasts',h2_contrasts))
 
 experiment_data %>% 
   group_by(condition) %>%
@@ -155,6 +170,8 @@ h3_tests = list(
   )
       
 h3_contrasts = data.frame((contrast(means1,h3_tests)))
+print(paste('h3_contrasts',h3_contrasts))
+
 h3_significant = sum(h3_contrasts$p.value < 0.05) == nrow(h1_contrasts)
 
 experiment_data %>% 
@@ -177,6 +194,7 @@ h4_tests = list(
   
 # H4 results
 h4_contrasts = data.frame((contrast(h4_means,h4_tests)))
+print(paste('h4_contrasts',h4_contrasts))
 
 experiment_data %>%
   group_by(condition) %>%
