@@ -32,7 +32,7 @@ The [experiment_data/](experiment_data/) directory contains the final data from 
 
 ## Experiment code
 
-The [experiment/](experiment/) directory contains all the front-end code and data for running the experiment (including the comprehension quiz). A description of each file is given below.
+The [experiment/](experiment/) directory contains all the front-end code and data for running the experiment (including the comprehension quiz).  You can view a demo of the experiment [here](https://mdahardy.github.io/judgmental-bootstrapping-internal/experiment). A description of each file is given below.
 * [experiment_with_city_selection.js](experiment/experiment_with_city_selection.js) is the main experiment script that generates and organizes the experiment using the jsPysch library.
 * [model_trial_with_selection.js](experiment/model_trial_with_selection.js) is a custom jsPsych plugin that generates each trial (either control or model assistance).
 * [city_data.csv](experiment/city_data.csv) contains data for identifying and selecting the target cities.
