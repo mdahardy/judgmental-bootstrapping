@@ -4,9 +4,9 @@ This repo contains analysis code, experiment code, and data for <b>Improving out
 
 This reproducibility package was assembled on September 9th, 2024. For questions, contact Matt Hardy at [mdhardy@princeton.edu](mailto:mdhardy@princeton.edu).
 
-### Contents
+## Contents
 
-#### Scripts
+### Scripts
 
 The [data_analysis](data_analysis/) directory contains the following R Markdown files:
 
@@ -14,7 +14,7 @@ The [data_analysis](data_analysis/) directory contains the following R Markdown 
 * [final_experiment_figures.Rmd](final_experiment_figures.Rmd): Generates the plots included in the paper. Runtime: ~60 seconds.
 * [multi-choice-utils.R](multi-choice-utils.R): Contains helper functions used in the analysis scripts (regular R script).
 
-#### Data
+### Data
 
 The [experiment_data/](experiment_data/) directory contains:
 
@@ -23,7 +23,7 @@ The [experiment_data/](experiment_data/) directory contains:
 * [worker_data.csv](experiment_data/worker_data.csv): Participants' responses to the comprehension quiz
 * [monthly_averages/](experiment_data/monthly_averages/): True high temperatures for target and model cities
 
-#### Experiment Code
+### Experiment Code
 
 The [experiment/](experiment/) directory contains the front-end code and data for running the experiment. A demo is available [here](https://mdahardy.github.io/judgmental-bootstrapping-internal/experiment).
 
@@ -37,7 +37,7 @@ Key files:
 
 Note: To run the experiment locally, launch a server in the experiment directory.
 
-### Setup and Reproduction
+## Setup and Reproduction
 
 To run the analyses:
 
