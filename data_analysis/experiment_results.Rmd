@@ -9,31 +9,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-packages = c("dplyr", "emmeans", "lme4", "lmerTest", "here", "ltm", "glmnet", "ggplot2", "stringi", "lubridate")
-versions = c("1.0.8", "1.8.1.1", "1.1.28", "3.1.3", "1.0.1", "1.2.0", "4.1.4", "3.4.4", "1.7.6", "1.8.0")
-
-for (i in seq_along(packages)) {
-  if (!requireNamespace(packages[i], quietly = TRUE) || 
-      packageVersion(packages[i]) != versions[i]) {
-    remotes::install_version(packages[i], version = versions[i])
-  }
-  library(packages[i], character.only = TRUE)
-}
-
-# Verify package versions
-installed_versions = sapply(packages, packageVersion)
-expected_versions = setNames(versions, packages)
-all_correct = all(installed_versions == expected_versions)
-
-if (!all_correct) {
-  incorrect = which(installed_versions != expected_versions)
-  warning(paste("Some package versions do not match the expected versions:",paste(names(incorrect), collapse = ", ")))
-}
+# Load required packages
+library(dplyr)
+library(emmeans)
+library(lme4)
+library(lmerTest)
+library(here)
+library(ltm)
+library(glmnet)
+library(ggplot2)
+library(stringi)
+library(lubridate)
 
 print(here())
 
 source(here("data_analysis/multi-choice-utils.R"))
-
 ```
 
 
