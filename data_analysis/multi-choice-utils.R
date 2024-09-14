@@ -8,7 +8,7 @@ get_city_averages = function(cities){
   for (city in cities){
     city_str= gsub(' ', '_', city)
     if (city_str=='New_York_City') city_str = 'New_York'
-    city_data = paste0('experiment_data/monthly_averages/',city_str,'.csv') %>%
+    city_data = paste0('../experiment_data/monthly_averages/',city_str,'.csv') %>%
       here() %>%
       read.csv() %>%
       transmute(

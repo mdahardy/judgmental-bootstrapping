@@ -48,7 +48,7 @@ To run the analyses:
    install.packages("remotes")
    
    packages <- c("dplyr", "emmeans", "lme4", "lmerTest", "here", "ltm", "glmnet", "ggplot2", "stringi", "lubridate", "ggpattern", "tidyr")
-   versions <- c("1.0.8", "1.8.1.1", "1.1.28", "3.1.3", "1.0.1", "1.2.0", "4.1.4", "3.4.4", "1.7.6", "1.8.0", "1.0.1", "1.2.0")
+   versions <- c("1.0.8", "1.8.1.1", "1.1.28", "3.1.3", "1.0.1", "1.2.0", "4.1.4", "3.4.4", "1.7.6", "1.9.2", "1.0.1", "1.2.0")
    
    for (i in seq_along(packages)) {
      remotes::install_version(packages[i], version = versions[i])
